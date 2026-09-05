@@ -1,0 +1,36 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import { ui, languages, type Lang } from '../../i18n/ui';
+export function getStaticPaths() { return languages.map(lang => ({ params: { lang } })); }
+const lang = Astro.params.lang as Lang;
+const c = ui[lang];
+const base = import.meta.env.BASE_URL;
+const icons = ['📺', '🖼️', '▶️', '🕹️', '📱', '🔒'];
+---
+<BaseLayout title={`FlowSky for Bluesky — ${c.tagline}`} description={c.subtitle} lang={lang}>
+  <section class="mx-auto max-w-3xl px-5 pt-20 pb-12 text-center">
+    <img src={`${base}brand/flowsky.png`} alt="" width="800" height="480" loading="eager" fetchpriority="high" class="mx-auto mb-7 h-auto w-44 rounded-2xl shadow-sm" />
+    <h1 class="text-4xl font-bold tracking-tight sm:text-5xl">FlowSky for Bluesky<span class="mt-4 block text-xl font-normal leading-snug tracking-normal text-ink/90 sm:text-2xl">{c.tagline}</span></h1>
+    <p class="mx-auto mt-4 max-w-xl leading-relaxed text-muted">{c.subtitle}</p>
+    <p class="mt-8 inline-flex items-center gap-2 rounded-full border border-line bg-card px-4 py-2 text-sm font-medium"><span class="inline-block h-2 w-2 rounded-full bg-accent"></span>{c.status}</p>
+    <p class="mt-3 text-sm text-muted">{c.platforms}</p>
+  </section>
+  <section id="features" class="mx-auto max-w-5xl scroll-mt-24 px-5 py-16">
+    <h2 class="mb-10 text-center text-2xl font-semibold">{c.featuresTitle}</h2>
+    <div class="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">{c.features.map((feature, i) => <div class="rounded-2xl border border-line bg-card p-6">
+      <div class="mb-3 text-2xl" aria-hidden="true">{icons[i]}</div><h3 class="font-semibold">{feature.title}</h3><p class="mt-2 text-sm leading-relaxed text-muted">{feature.description}</p>
+    </div>)}</div>
+  </section>
+  <section id="how" class="mx-auto max-w-5xl scroll-mt-24 px-5 py-12">
+    <h2 class="mb-10 text-center text-2xl font-semibold">{c.howTitle}</h2>
+    <ol class="grid gap-8 sm:grid-cols-3">{c.steps.map((step, i) => <li>
+      <span class="mb-4 inline-flex h-9 w-9 items-center justify-center rounded-full border border-line text-sm font-semibold text-accent">{i+1}</span>
+      <h3 class="font-semibold">{step.title}</h3><p class="mt-2 text-sm leading-relaxed text-muted">{step.description}</p>
+    </li>)}</ol>
+  </section>
+  <section class="mx-auto max-w-3xl px-5 py-12 text-center">
+    <h2 class="text-2xl font-semibold">{c.privacyTitle}</h2><p class="mt-5 leading-relaxed text-muted">{c.privacyText}</p>
+    <a href={`${base}${lang}/privacy/`} class="mt-4 inline-block text-sm text-accent">{c.privacyLink} →</a>
+    <p class="mt-10 border-t border-line pt-6 text-sm leading-relaxed text-muted">{c.availability}</p>
+  </section>
+</BaseLayout>

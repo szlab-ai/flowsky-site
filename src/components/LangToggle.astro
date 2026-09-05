@@ -1,0 +1,13 @@
+---
+import { languages, htmlLang, type Lang } from '../i18n/ui';
+const { lang } = Astro.props as { lang: Lang };
+const base = import.meta.env.BASE_URL;
+const path = Astro.url.pathname;
+const hasLocale = /\/(en|zh|ja)(\/|$)/.test(path);
+const labels = { en: 'EN', zh: '中文', ja: '日本語' };
+---
+<div class="flex flex-wrap items-center gap-2 text-sm">
+  {languages.map(target => <a href={hasLocale ? path.replace(/\/(en|zh|ja)(\/|$)/, `/${target}$2`) : `${base}${target}/`}
+    lang={htmlLang[target]} aria-current={target === lang ? 'true' : undefined}
+    class={target === lang ? 'font-semibold text-accent' : 'text-muted hover:text-ink'}>{labels[target]}</a>)}
+</div>

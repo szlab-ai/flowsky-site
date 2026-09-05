@@ -1,0 +1,19 @@
+---
+import LangToggle from './LangToggle.astro';
+import { ui, contact, type Lang } from '../i18n/ui';
+const { lang } = Astro.props as { lang: Lang };
+const c = ui[lang];
+const home = `${import.meta.env.BASE_URL}${lang}/`;
+---
+<footer class="mt-24 border-t border-line">
+  <div class="mx-auto max-w-5xl px-5 py-10 text-sm text-muted">
+    <div class="flex flex-wrap items-center gap-x-5 gap-y-3">
+      <span>© 2026 SZLab</span>
+      {(['terms', 'privacy', 'support'] as const).map(page => <a href={`${home}${page}/`} class="text-accent">{c.nav[page]}</a>)}
+      <a href={`mailto:${contact}`} class="text-accent">{c.nav.contact}</a>
+      <span class="sm:ml-auto"><LangToggle lang={lang} /></span>
+    </div>
+    <p class="mt-5 leading-relaxed">{c.independence}</p>
+    <p class="mt-2 leading-relaxed">{c.appleCredit}</p>
+  </div>
+</footer>

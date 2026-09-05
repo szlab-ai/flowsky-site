@@ -1,0 +1,18 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Prose from '../../components/Prose.astro';
+import { languages, ui, htmlLang, contact, type Lang } from '../../i18n/ui';
+import { translations, type Page } from '../../lib/legal';
+export function getStaticPaths() { return languages.flatMap(lang => ['terms', 'privacy', 'support'].map(page => ({params: {lang, page}}))); }
+const lang = Astro.params.lang as Lang;
+const page = Astro.params.page as Page;
+const content = translations[htmlLang[lang]];
+---
+<BaseLayout title={`${content.navigation[page]} — FlowSky for Bluesky`} description={ui[lang].descriptions[page]} lang={lang}>
+  <Prose title={content.navigation[page]}>
+    <p class="text-sm text-muted">{content.updated}</p>
+    {content.pages[page].map(section => <section><h2>{section.title}</h2>{section.paragraphs.map(p => <p>{p}</p>)}</section>)}
+    {page === 'terms' && <p><a href="https://www.apple.com/legal/internet-services/itunes/dev/stdeula/">Apple Standard EULA</a> · <a href="https://reportaproblem.apple.com/">Apple: Report a Problem</a></p>}
+    <h2>{content.contact}</h2><p><a href={`mailto:${contact}`}>{contact}</a></p>
+  </Prose>
+</BaseLayout>

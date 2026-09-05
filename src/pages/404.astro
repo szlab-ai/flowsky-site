@@ -1,0 +1,7 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+const base = import.meta.env.BASE_URL;
+---
+<BaseLayout title="Page not found — FlowSky" description="Return to the FlowSky website." lang="en" noindex>
+  <section class="mx-auto max-w-content px-5 py-20"><h1 class="text-3xl font-bold">Page not found</h1><p class="mt-5"><a href={`${base}en/`} class="text-accent">Return to FlowSky →</a></p></section>
+</BaseLayout>
